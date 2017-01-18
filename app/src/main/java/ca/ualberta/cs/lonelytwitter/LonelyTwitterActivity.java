@@ -34,6 +34,23 @@ public class LonelyTwitterActivity extends Activity {
 		Button saveButton = (Button) findViewById(R.id.save);
 		oldTweetsList = (ListView) findViewById(R.id.oldTweetsList);
 
+		// tweet.message does not work because it is set as private in class
+		// Tweet tweet2 = new Tweet(new Date(), "My second tweet");
+		try {
+			Tweet tweet = new NormalTweet("First tweet");
+			tweet.setMessage("kslfje");
+			ImportantTweet importantTweet = new ImportantTweet("very important");
+			NormalTweet normalTweet = new NormalTweet("is normal");
+
+			ArrayList<Tweet> arrayList = new ArrayList<Tweet>();
+			arrayList.add(tweet);
+			arrayList.add(importantTweet); //this is being up cast to a Tweet from ImportantTweet
+			arrayList.add(normalTweet); // the sub class data will be gone when casting to a different class
+
+		} catch (TweetTooLongException e) {
+			e.printStackTrace();
+		}
+
 		saveButton.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
