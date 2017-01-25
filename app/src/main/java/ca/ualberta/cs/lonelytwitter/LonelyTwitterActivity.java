@@ -104,7 +104,7 @@ public class LonelyTwitterActivity extends Activity {
 			FileInputStream fis = openFileInput(FILENAME);
 			BufferedReader in = new BufferedReader(new InputStreamReader(fis));
 			Gson gson = new Gson();
-			Type listType = new TypeToken<ArrayList<Tweet>>() {
+			Type listType = new TypeToken<ArrayList<NormalTweet>>() {
 			}.getType();
 			tweetList = gson.fromJson(in, listType);
 			//Taken from:http://stackoverflow.com/questions/12384064/gson-convert-from-json-to-a-typed-arraylistt
