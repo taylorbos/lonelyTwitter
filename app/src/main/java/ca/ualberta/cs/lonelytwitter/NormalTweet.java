@@ -3,7 +3,14 @@ package ca.ualberta.cs.lonelytwitter;
 import java.util.Date;
 
 /**
- * Created by bos on 1/17/17.
+ * <code>NormalTweet</code> is a subclass of <code>Tweet</code> which sets
+ * the boolean <code>isImportant</code> to false and does not change the messsage.
+ *
+ * @author bos
+ * @see Tweet
+ * @see #NormalTweet(Date, String)
+ * @see #NormalTweet(String)
+ * @see #isImportant()
  */
 public class NormalTweet extends Tweet {
 

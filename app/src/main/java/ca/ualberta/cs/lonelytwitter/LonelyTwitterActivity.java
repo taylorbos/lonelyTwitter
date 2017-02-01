@@ -25,32 +25,27 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 /**
- * This class does stuff<pre>
- *     pre-formatted test: <br>
- *         	File Explorer -> data -> data ca.ualberta.cs.lonelytwitter -> files -> file.sav
- * </pre>
- * <code> begin <br>
- * some pseudo code <br>
- *     end. </code>
- * The file name is indicated in the FILENAME constant
- * <ul>
- *     <li>item 1</li>
- * </ul>
- * <ol>
- *     <li>item 1</li>
- * </ol>
+ * <code>LonelyTwitterActivity</code> is the main code of the program.
+ * It consists of <code>onCreate</code>, <code>onStart</code>, <code>trimExtraSpaces</code>,
+ * <code>sortTweetListItems</code>, <code>loadFromFile</code>, and <code>saveInFile</code>.
+ *
  *
  * @author bos
  * @version 1.0
- * @see Tweet
+ * @see #onCreate(Bundle)
+ * @see #onStart()
+ * @see #trimExtraSpaces(String)
+ * @see #sortTweetListItems(TweetListOrdering)
+ * @see #loadFromFile()
+ * @see #saveInFile()
  * @since 0.5
  */
 
 public class LonelyTwitterActivity extends Activity {
 	/**
-	 * The file that all the tweets are saved there. The format of the file is JSON.
+	 * The file that all the tweets are saved. The format of the file is JSON.
 	 * @see #loadFromFile()
-	 * @see #saveInFile(String, Date)
+	 * @see #saveInFile()
 	 *
 	 */
 	private static final String FILENAME = "file.sav";
@@ -60,7 +55,12 @@ public class LonelyTwitterActivity extends Activity {
 
 	private ArrayList<Tweet> tweetList;
 	private ArrayAdapter<Tweet> adapter;
-	/** Called when the activity is first created. */
+	/** Called when the activity is first created. <br>
+	 *  Sets up the two buttons: clear and save.
+	 *
+	 *  @param savedInstanceState
+	 *  @see #saveInFile()
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -93,7 +93,12 @@ public class LonelyTwitterActivity extends Activity {
 			}
 		});
 	}
-
+	/**
+	 * <code>OnStart</code> creates a list for the Tweets, loads from file, and makes the adapter.
+	 *
+	 * @see #loadFromFile()
+	 * @see Tweet
+	 */
 	@Override
 	protected void onStart() {
 		// TODO Auto-generated method stub
