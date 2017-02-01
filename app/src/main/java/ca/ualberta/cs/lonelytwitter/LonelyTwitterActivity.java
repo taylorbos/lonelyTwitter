@@ -24,15 +24,42 @@ import android.widget.ListView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-public class LonelyTwitterActivity extends Activity {
+/**
+ * This class does stuff<pre>
+ *     pre-formatted test: <br>
+ *         	File Explorer -> data -> data ca.ualberta.cs.lonelytwitter -> files -> file.sav
+ * </pre>
+ * <code> begin <br>
+ * some pseudo code <br>
+ *     end. </code>
+ * The file name is indicated in the FILENAME constant
+ * <ul>
+ *     <li>item 1</li>
+ * </ul>
+ * <ol>
+ *     <li>item 1</li>
+ * </ol>
+ *
+ * @author bos
+ * @version 1.0
+ * @see Tweet
+ * @since 0.5
+ */
 
+public class LonelyTwitterActivity extends Activity {
+	/**
+	 * The file that all the tweets are saved there. The format of the file is JSON.
+	 * @see #loadFromFile()
+	 * @see #saveInFile(String, Date)
+	 *
+	 */
 	private static final String FILENAME = "file.sav";
+	private enum TweetListOrdering {DATE_ASCENDING, DATE_DESCENDING, TEXT_ASCENDING, TEXT_DESCENDING};
 	private EditText bodyText;
 	private ListView oldTweetsList;
 
 	private ArrayList<Tweet> tweetList;
 	private ArrayAdapter<Tweet> adapter;
-
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -41,98 +68,104 @@ public class LonelyTwitterActivity extends Activity {
 
 		bodyText = (EditText) findViewById(R.id.body);
 		Button saveButton = (Button) findViewById(R.id.save);
+		Button clearButton = (Button) findViewById(R.id.clear);
 		oldTweetsList = (ListView) findViewById(R.id.oldTweetsList);
 
-		// tweet.message does not work because it is set as private in class
-		// Tweet tweet2 = new Tweet(new Date(), "My second tweet");
+		clearButton.setOnClickListener(new View.OnClickListener() {
+			public void OnClick (View v){
+				setResult(RESULT_OK);
+				tweetList.clear();
+				saveInFile();
+				adapter.notifyDataSetChanged();
+			}
+		});
 		saveButton.setOnClickListener(new View.OnClickListener() {
+
 			public void onClick(View v) {
 				setResult(RESULT_OK);
 				String text = bodyText.getText().toString();
-				try{
-					Tweet tweet = new NormalTweet(text);
-					tweetList.add(tweet);
-				} catch (TweetTooLongException e){
-
-				}
-
-
+				text = trimExtraSpaces(text);
+				Tweet tweet = new NormalTweet(text);
+				tweetList.add(tweet);
 				adapter.notifyDataSetChanged();
 				saveInFile();
-			}
-		});
-	}/*
-		try {
-			Tweet tweet = new NormalTweet("First tweet");
-			tweet.setMessage("kslfje");
-			ImportantTweet importantTweet = new ImportantTweet("very important");
-			NormalTweet normalTweet = new NormalTweet("is normal");
-
-			ArrayList<Tweet> arrayList = new ArrayList<Tweet>();
-			arrayList.add(tweet);
-			arrayList.add(importantTweet); //this is being up cast to a Tweet from ImportantTweet
-			arrayList.add(normalTweet); // the sub class data will be gone when casting to a different class
-
-		} catch (TweetTooLongException e) {
-			e.printStackTrace();
-		}
-
-		saveButton.setOnClickListener(new View.OnClickListener() {
-
-			public void onClick(View v) {
-				setResult(RESULT_OK);
-				String text = bodyText.getText().toString();
-				saveInFile(text, new Date(System.currentTimeMillis()));
-				finish();
 
 			}
 		});
-	}*/
+	}
 
 	@Override
 	protected void onStart() {
 		// TODO Auto-generated method stub
 		super.onStart();
-		loadFromFile(); //loads tweet list from the file
-		adapter = new ArrayAdapter<Tweet>(this,
-				R.layout.list_item, tweetList);
+		tweetList = new ArrayList<Tweet>();
+		loadFromFile();
+		adapter = new ArrayAdapter<Tweet>(this, R.layout.list_item, tweetList);
 		oldTweetsList.setAdapter(adapter);
 	}
 
+	/**
+	 * Trims extra spaces using regular expression.
+	 * @param inputString
+	 * @return resulting string
+     */
+	private String trimExtraSpaces(String inputString){
+		inputString = inputString.replaceAll("\\s+"," ");
+		return inputString;
+	}
+
+	/**
+	 * This method sorts items in the tweet list and refreshes the adapter.
+	 * @param ordering ordering to be used
+     */
+	private void sortTweetListItems (TweetListOrdering ordering){
+
+	}
+
+	/**
+	 * Loads tweets from specified file
+	 *
+	 * @throws TweetTooLongException if the text is too long
+	 * @exception FileNotFoundException if the file is not created first
+     */
 	private void loadFromFile() {
 		try {
 			FileInputStream fis = openFileInput(FILENAME);
 			BufferedReader in = new BufferedReader(new InputStreamReader(fis));
 			Gson gson = new Gson();
-			Type listType = new TypeToken<ArrayList<NormalTweet>>() {
-			}.getType();
-			tweetList = gson.fromJson(in, listType);
-			//Taken from:http://stackoverflow.com/questions/12384064/gson-convert-from-json-to-a-typed-arraylistt
-			//2017-01-24 18:19
-		} catch (FileNotFoundException e) {
-			tweetList = new ArrayList<Tweet>();
-			//throw new RuntimeException();
+			tweetList = gson.fromJson(in, new TypeToken<ArrayList<NormalTweet>>(){}.getType());
+			fis.close();
 
+
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			tweetList = new ArrayList<Tweet>();
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			throw new RuntimeException();
 		}
 	}
 
-	
+	/**
+	 * saves tweets to a specified file in JSON format
+	 * @throws TweetTooLongException if the text is too long
+	 * @throws  FileNotFoundException if file is not created first
+	 *
+     */
 	private void saveInFile() {
 		try {
 			FileOutputStream fos = openFileOutput(FILENAME,
-					Context.MODE_PRIVATE);
+					Context.MODE_APPEND);
 			BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
 			Gson gson = new Gson();
 			gson.toJson(tweetList, out);
 			out.flush();
 			fos.close();
 		} catch (FileNotFoundException e) {
-			// TODO: Handle the Exception properly later
-			throw new RuntimeException(); //this crashes the app
+			// TODO Auto-generated catch block
+			throw new RuntimeException();
 		} catch (IOException e) {
-
+			// TODO Auto-generated catch block
 			throw new RuntimeException();
 		}
 	}

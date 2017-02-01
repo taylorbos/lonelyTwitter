@@ -7,14 +7,14 @@ import java.util.Date;
  */
 
 public class ImportantTweet extends Tweet { //don't have to reimplement attributes
-    public ImportantTweet(Date date, String message) throws TweetTooLongException {
+    public ImportantTweet(Date date, String message)  {
         super(date, message); // calls super class constructor
     }
 
-    public ImportantTweet(String message) throws TweetTooLongException {
+    public ImportantTweet(String message)  {
         super(message);
     }
-
+    @Override
     public Boolean isImportant() { //important tweet is important
         return Boolean.TRUE;
     }

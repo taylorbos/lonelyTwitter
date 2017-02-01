@@ -5,17 +5,29 @@ import java.util.Date;
 /**
  * Created by bos on 1/17/17.
  */
-
 public class NormalTweet extends Tweet {
 
-    public NormalTweet(Date date, String message) throws TweetTooLongException {
+    /**
+     * Instantiates a new Normal tweet.
+     *
+     * @param date    the date
+     * @param message the message
+     * @throws TweetTooLongException the tweet too long exception
+     */
+    public NormalTweet(Date date, String message)  {
         super(date, message);
     }
 
-    public NormalTweet(String message) throws TweetTooLongException {
+    /**
+     * Instantiates a new Normal tweet.
+     *
+     * @param message the message
+     * @throws TweetTooLongException the tweet too long exception
+     */
+    public NormalTweet(String message)  {
         super(message);
     }
-
+    @Override
     public Boolean isImportant() {
         return Boolean.FALSE;
     }

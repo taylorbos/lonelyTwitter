@@ -5,6 +5,8 @@ import java.util.Date;
 
 /**
  * Created by bos on 1/17/17.
+ *
+ * Tweet class is a super class that implements Tweetable
  */
 
 public abstract class Tweet implements Tweetable { //can't make it but can make sub its
@@ -25,13 +27,13 @@ public abstract class Tweet implements Tweetable { //can't make it but can make 
     }
     // private String hiddenString;
 
-    public Tweet(Date date, String message) throws TweetTooLongException {
+    public Tweet(Date date, String message)  {
         this.date = date;
-        this.setMessage(message);
+        this.message = message;
     }
 
-    public Tweet(String message) throws TweetTooLongException {
-        this.setMessage(message);
+    public Tweet(String message)  {
+        this.message = message;
         this.date = new Date(); // current time and date
     }
 
