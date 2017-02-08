@@ -50,7 +50,7 @@ public class LonelyTwitterActivity extends Activity {
 	/**
 	 * The file that all the tweets are saved there. The format of the file is JSON.
 	 * @see #loadFromFile()
-	 * @see #saveInFile(String, Date)
+	 * @see #saveInFile()
 	 *
 	 */
 	private static final String FILENAME = "file.sav";
@@ -72,7 +72,8 @@ public class LonelyTwitterActivity extends Activity {
 		oldTweetsList = (ListView) findViewById(R.id.oldTweetsList);
 
 		clearButton.setOnClickListener(new View.OnClickListener() {
-			public void OnClick (View v){
+
+			public void onClick(View v) {
 				setResult(RESULT_OK);
 				tweetList.clear();
 				saveInFile();
