@@ -3,7 +3,9 @@ package ca.ualberta.cs.lonelytwitter;
 import java.util.Date;
 
 /**
- * Created by bos on 1/17/17.
+ * This is an interface that makes sure everything that is tweetable has
+ * the methods: getMessage and getDate.
+ * @see Tweet
  */
 
 public interface Tweetable {
